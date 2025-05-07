@@ -45,3 +45,11 @@ Este projeto foi desenvolvido como parte da disciplina de **Teoria da Computaç�
 cd c/
 gcc dijkstra.c -o dijkstra
 ./dijkstra input.txt
+cd js/
+node dijkstra.js input.json
+```
+
+## Equipe
+Kaique Alves
+Lucca Gomes
+Maria Júlia Pessoa
