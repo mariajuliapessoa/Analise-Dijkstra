@@ -5,14 +5,14 @@ Este projeto foi desenvolvido como parte da disciplina de **Teoria da Computaç�
 ## Objetivo
 
 - Estudar a complexidade teórica do algoritmo de Dijkstra.
-- Comparar o desempenho prático entre as linguagens C e JavaScript.
+- Comparar o desempenho prático entre as linguagens C e Python.
 - Discutir a aplicabilidade e limitações do algoritmo.
 - Gerar gráficos e tabelas com base em simulações reais e sintéticas.
 
 ## Conteúdo do Projeto
 
 - `c/`: Implementação em C.
-- `js/`: Implementação em JavaScript.
+- `py/`: Implementação em Python.
 - `data/`: Scripts e exemplos de entrada (geradores de grafos).
 - `results/`: Gráficos, tabelas e dados coletados.
 - `report.pdf`: Relatório final completo.
@@ -26,7 +26,7 @@ Este projeto foi desenvolvido como parte da disciplina de **Teoria da Computaç�
 
 ## Resultados
 
-- Os tempos de execução mostraram diferença significativa entre C (compilado) e JavaScript (interpretado).
+- Os tempos de execução mostraram diferença significativa entre C (compilado) e Python (interpretado).
 - A complexidade observada se manteve próxima da prevista teoricamente para os casos testados.
 - Os gráficos comparam tempo vs número de vértices, além da sobreposição com as curvas teóricas.
 
@@ -45,11 +45,14 @@ Este projeto foi desenvolvido como parte da disciplina de **Teoria da Computaç�
 cd c/
 gcc dijkstra.c -o dijkstra
 ./dijkstra input.txt
-cd js/
+cd py/
 node dijkstra.js input.json
 ```
 
 ## Equipe
-Kaique Alves
-Lucca Gomes
-Maria Júlia Pessoa
+
+- Kaique Alves
+  
+- Lucca Gomes
+
+- Maria Júlia Pessoa
