@@ -1,6 +1,6 @@
-# Análise de Complexidade: Algoritmo de Dijkstra em C e JavaScript
+# Análise de Complexidade: Algoritmo de Dijkstra em C e Python
 
-Este projeto foi desenvolvido como parte da disciplina de **Teoria da Computação** (Professores Pâmela e Daniel) e tem como objetivo analisar o desempenho do algoritmo de Dijkstra implementado em duas linguagens distintas: **C** e **JavaScript**.
+Este projeto foi desenvolvido como parte da disciplina de **Teoria da Computação** (Professores Pâmela e Daniel) e tem como objetivo analisar o desempenho do algoritmo de Dijkstra implementado em duas linguagens distintas: **C** e **Python**.
 
 ## Objetivo
 
