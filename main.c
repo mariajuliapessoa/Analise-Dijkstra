@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <windows.h>
 #include <limits.h>
 #include <math.h>
 
@@ -93,7 +93,6 @@ void dijkstra(int num_vertices, int origem, int dist[]) {
         NoHeap min = heap[0];
         int u = min.vertice;
 
-        // Remove da heap
         heap[0] = heap[tamanho_heap - 1];
         tamanho_heap--;
         heapify(heap, tamanho_heap, 0);
@@ -139,6 +138,9 @@ int main() {
     int tamanhos[] = {100, 1000, 5000};
     int num_testes = sizeof(tamanhos) / sizeof(tamanhos[0]);
 
+    LARGE_INTEGER freq;
+    QueryPerformanceFrequency(&freq); // Frequência do contador de alta resolução
+
     for (int t = 0; t < num_testes; t++) {
         int tamanho = tamanhos[t];
         double tempos[EXECUCOES];
@@ -147,10 +149,14 @@ int main() {
 
         for (int i = 0; i < EXECUCOES; i++) {
             int dist[MAX_VERTICES];
-            clock_t inicio = clock();
+            LARGE_INTEGER inicio, fim;
+
+            QueryPerformanceCounter(&inicio);
             dijkstra(tamanho, 0, dist);
-            clock_t fim = clock();
-            tempos[i] = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
+            QueryPerformanceCounter(&fim);
+
+            double tempo = (double)(fim.QuadPart - inicio.QuadPart) / freq.QuadPart;
+            tempos[i] = tempo;
         }
 
         double media, desvio;
