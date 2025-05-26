@@ -6,7 +6,6 @@
 
 #define MAX_VERTICES 5000
 #define PESO_MAX 10
-#define DENSIDADE 0.2
 #define EXECUCOES 30
 
 // Estrutura de aresta
@@ -28,14 +27,28 @@ void adicionar_aresta(int origem, int destino, int peso) {
     grafo[origem] = nova;
 }
 
-// Gera um grafo aleatório direcionado e ponderado
-void gerar_grafo(int num_vertices) {
+// Libera memória do grafo
+void liberar_grafo(int num_vertices) {
+    for (int i = 0; i < num_vertices; i++) {
+        Aresta* atual = grafo[i];
+        while (atual != NULL) {
+            Aresta* temp = atual;
+            atual = atual->prox;
+            free(temp);
+        }
+        grafo[i] = NULL;
+    }
+}
+
+// Gera um grafo aleatório direcionado e ponderado com densidade variável
+void gerar_grafo(int num_vertices, double densidade) {
+    liberar_grafo(num_vertices);
     for (int i = 0; i < num_vertices; i++) {
         grafo[i] = NULL;
     }
     for (int u = 0; u < num_vertices; u++) {
         for (int v = 0; v < num_vertices; v++) {
-            if (u != v && ((double)rand() / RAND_MAX) < DENSIDADE) {
+            if (u != v && ((double)rand() / RAND_MAX) < densidade) {
                 int peso = rand() % PESO_MAX + 1;
                 adicionar_aresta(u, v, peso);
             }
@@ -106,6 +119,7 @@ void dijkstra(int num_vertices, int origem, int dist[]) {
             int peso = atual->peso;
             if (dist[u] != INT_MAX && dist[u] + peso < dist[v]) {
                 dist[v] = dist[u] + peso;
+                // Atualiza heap para v
                 for (int i = 0; i < tamanho_heap; i++) {
                     if (heap[i].vertice == v) {
                         heap[i].distancia = dist[v];
@@ -136,35 +150,42 @@ int main() {
     srand(42);  // Semente fixa
 
     int tamanhos[] = {100, 1000, 5000};
-    int num_testes = sizeof(tamanhos) / sizeof(tamanhos[0]);
+    double densidades[] = {0.05, 0.1, 0.2, 0.4};
+    int num_tamanhos = sizeof(tamanhos) / sizeof(tamanhos[0]);
+    int num_densidades = sizeof(densidades) / sizeof(densidades[0]);
 
     LARGE_INTEGER freq;
     QueryPerformanceFrequency(&freq); // Frequência do contador de alta resolução
 
-    for (int t = 0; t < num_testes; t++) {
+    for (int t = 0; t < num_tamanhos; t++) {
         int tamanho = tamanhos[t];
-        double tempos[EXECUCOES];
+        for (int d = 0; d < num_densidades; d++) {
+            double densidade = densidades[d];
+            double tempos[EXECUCOES];
 
-        gerar_grafo(tamanho);
+            gerar_grafo(tamanho, densidade);
 
-        for (int i = 0; i < EXECUCOES; i++) {
-            int dist[MAX_VERTICES];
-            LARGE_INTEGER inicio, fim;
+            for (int i = 0; i < EXECUCOES; i++) {
+                int dist[MAX_VERTICES];
+                LARGE_INTEGER inicio, fim;
 
-            QueryPerformanceCounter(&inicio);
-            dijkstra(tamanho, 0, dist);
-            QueryPerformanceCounter(&fim);
+                QueryPerformanceCounter(&inicio);
+                dijkstra(tamanho, 0, dist);
+                QueryPerformanceCounter(&fim);
 
-            double tempo = (double)(fim.QuadPart - inicio.QuadPart) / freq.QuadPart;
-            tempos[i] = tempo;
+                double tempo = (double)(fim.QuadPart - inicio.QuadPart) / freq.QuadPart;
+                tempos[i] = tempo;
+            }
+
+            double media, desvio;
+            calcular_estatisticas(tempos, EXECUCOES, &media, &desvio);
+
+            printf("Grafo com %d vértices e densidade %.2f:\n", tamanho, densidade);
+            printf("Tempo médio: %.6f segundos\n", media);
+            printf("Desvio padrão: %.6f segundos\n\n", desvio);
+
+            liberar_grafo(tamanho);  // Liberar memória para evitar vazamento
         }
-
-        double media, desvio;
-        calcular_estatisticas(tempos, EXECUCOES, &media, &desvio);
-
-        printf("Grafo com %d vértices:\n", tamanho);
-        printf("Tempo médio: %.6f segundos\n", media);
-        printf("Desvio padrão: %.6f segundos\n\n", desvio);
     }
 
     return 0;
