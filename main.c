@@ -8,6 +8,8 @@
 #define PESO_MAX 10
 #define EXECUCOES 30
 
+OI
+
 // Estrutura de aresta
 typedef struct Aresta {
     int destino;
