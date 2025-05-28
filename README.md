@@ -44,7 +44,6 @@ Via CLion:
 Via terminal (Linux, Mac ou WSL):
 
 ```bash
-cd c/
 gcc -o dijkstra main.c -O2 -lm
 ./dijkstra
 ```
@@ -67,7 +66,6 @@ pip install -r py/requirements.txt
 Execute o script:
 
 ```bash
-cd py/
 python main.py
 ```
 
