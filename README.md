@@ -77,7 +77,7 @@ Via VSCode:
 
 Via Google Colab:
 
-1. Abra o notebook `analise_dijkstra.ipynb`.
+1. Abra o notebook `Dijkstra.ipynb`.
 2. Execute célula por célula para reproduzir os experimentos e visualizar os gráficos.
 
 ## Equipe
